@@ -1,4 +1,15 @@
 <?php
+// Configuration de la base de données
+$servername = "localhost"; // ou votre serveur de base de données
+$username = "radius";
+$password = "MDP BDD /root/ALCASAR-passwords.txt";
+$dbname = "radius";
+
+// Fonction pour générer un hash SHA-256 au format crypt
+function generate_sha256_crypt($value, $salt = 'rtkdwayv') {
+    return crypt($value, '$5$' . $salt);
+}
+
 // Vérifier si un fichier a été téléchargé
 if (isset($_FILES['fileToUpload'])) {
     $target_dir = "uploads/";
@@ -11,57 +22,61 @@ if (isset($_FILES['fileToUpload'])) {
     if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
         echo "The file " . htmlspecialchars(basename($_FILES["fileToUpload"]["name"])) . " has been uploaded.<br>";
 
-        // Lire et fragmenter le fichier CSV
-        fragmentCSV($target_file);
-
-        // Créer une archive tar.gz des fichiers fragmentés
-        $archive_file_name = 'csv_fragments_' . time() . '.tar.gz';
-        $archive_path = 'archives/' . $archive_file_name;
-        if (!is_dir('archives')) {
-            mkdir('archives', 0777, true);
+        // Connexion à la base de données
+        $conn = new mysqli($servername, $username, $password, $dbname);
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
         }
-        exec("tar -czvf $archive_path uploads/*");
 
-        echo "Archive created at $archive_path<br>";
+        // Lire le fichier CSV
+        $handle = fopen($target_file, "r");
+        if ($handle !== FALSE) {
+            // Ignorer la ligne d'en-tête
+            fgetcsv($handle, 1000, ",");
+
+            // Lire les données du CSV
+            while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+                // Récupérer les valeurs du CSV
+                $username = $data[1];
+                $attribute = $data[2];
+                $value = generate_sha256_crypt($data[4]); // Chiffrement SHA-256 de la valeur
+                $name = $data[5];
+                $mail = $data[6];
+                $department = $data[7];
+                $workphone = $data[8];
+                $homephone = $data[9];
+                $mobile = $data[10];
+
+                // Insérer dans radcheck et obtenir l'id auto-incrémenté
+                $radcheck_sql = $conn->prepare("INSERT INTO radcheck (username, attribute, value) VALUES (?, ?, ?)");
+                $radcheck_sql->bind_param("sss", $username, $attribute, $value);
+                if ($radcheck_sql->execute()) {
+                    $id = $conn->insert_id;
+
+                    // Insérer dans userinfo avec l'id obtenu
+                    $userinfo_sql = $conn->prepare("INSERT INTO userinfo (id, username, name, mail, department, workphone, homephone, mobile) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+                    $userinfo_sql->bind_param("isssssss", $id, $username, $name, $mail, $department, $workphone, $homephone, $mobile);
+                    if (!$userinfo_sql->execute()) {
+                        echo "Error inserting into userinfo: " . $userinfo_sql->error . "<br>";
+                    }
+                    $userinfo_sql->close();
+                } else {
+                    echo "Error inserting into radcheck: " . $radcheck_sql->error . "<br>";
+                }
+                $radcheck_sql->close();
+            }
+
+            // Fermer la connexion à la base de données
+            $conn->close();
+
+            fclose($handle);
+
+            echo "Data has been imported successfully.";
+        } else {
+            echo "Cannot open the file.";
+        }
     } else {
         echo "Sorry, there was an error uploading your file.";
     }
-}
-
-// Fonction pour fragmenter le CSV en fichiers séparés par colonne
-function fragmentCSV($csvFile) {
-    $handle = fopen($csvFile, "r");
-    if ($handle === FALSE) {
-        die("Cannot open the file " . $csvFile);
-    }
-
-    // Lire les en-têtes
-    $columns = fgetcsv($handle, 1000, ",");
-    if ($columns === FALSE) {
-        die("Cannot read the columns from the file " . $csvFile);
-    }
-
-    // Créer un fichier pour chaque colonne
-    $files = [];
-    foreach ($columns as $column) {
-        $files[$column] = fopen("uploads/$column.txt", "w");
-        if ($files[$column] === FALSE) {
-            die("Cannot create the file for column " . $column);
-        }
-    }
-
-    // Lire les données et les écrire dans les fichiers correspondants
-    while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
-        foreach ($columns as $index => $column) {
-            fwrite($files[$column], $data[$index] . PHP_EOL);
-        }
-    }
-
-    // Fermer tous les fichiers
-    foreach ($files as $file) {
-        fclose($file);
-    }
-
-    fclose($handle);
 }
 ?>
