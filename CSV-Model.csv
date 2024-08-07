@@ -1,0 +1,3 @@
+,username,attribute,value,Mot de passe,name,mail,department,workphone,homephone,mobile
+,toto,Crypt-Password,:=,abc,toto,toto@gmail.com,informatique,mettre le numero de telephone,mettre le numero de telephone,mettre le numero de telephone
+,bob,Crypt-Password,:=,def,bob,bob@gmail.com,rh,mettre le numero de telephone,mettre le numero de telephone,mettre le numero de telephone
