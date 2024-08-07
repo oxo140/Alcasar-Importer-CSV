@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Upload CSV</title>
+    <title>Importer CSV</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -36,19 +36,27 @@
             border-radius: 5px;
             cursor: pointer;
             font-size: 16px;
+            margin-bottom: 10px;
         }
         input[type="submit"]:hover {
             background-color: #45a049;
+        }
+        input[type="submit"].delete {
+            background-color: #f44336;
+        }
+        input[type="submit"].delete:hover {
+            background-color: #e53935;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h2>Upload votre fichier CSV </h2>
+        <h2>Importer votre fichier CSV</h2>
         <form action="upload.php" method="post" enctype="multipart/form-data">
-            Select CSV file to upload:
+            Choisir votre fichier CSV a importer:
             <input type="file" name="fileToUpload" id="fileToUpload">
             <input type="submit" value="Upload CSV" name="submit">
+            <input type="submit" value="Reverse CSV" name="delete" class="delete">
         </form>
     </div>
 </body>
