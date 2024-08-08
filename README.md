@@ -4,6 +4,15 @@
 
 🏗️ Ce script PHP permet d'importer des utilisateurs dans la base à partir d'un fichier CSV. 🏗️
 
+🛠️ Installation-Instructions 🛠️
+
+🔧 Placez les fichiers index.php et upload.php dans le répertoire de votre serveur web. 🔧
+
+🔧 Exemple : /var/www/html/csv/index.php - upload.php 🔧
+
+🔧 Accédez à http://localhost/csv (ou l'URL correspondant à votre configuration).🔧
+
+
 ✔️ Le bouton "importer CSV" permet de lire le fichier CSV pour une importation dans la base de données de alacasar. ✔️
 
 ✔️ Il met à jour la base de données en utilisant les identifiants fournis. 
@@ -16,10 +25,3 @@
 
 ⚠️ Penser a l'utiliser avec précaution, il faut toujours avoir une sauvegarder de votre base. ⚠️
 
-🛠️ Installation-Instructions 🛠️
-
-🔧 Placez les fichiers index.php et upload.php dans le répertoire de votre serveur web. 🔧
-
-🔧 Exemple : /var/www/html/csv/index.php - upload.php 🔧
-
-🔧 Accédez à http://localhost/csv (ou l'URL correspondant à votre configuration).🔧
