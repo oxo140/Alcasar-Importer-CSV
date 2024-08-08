@@ -15,7 +15,7 @@
 
 ✔️ Le bouton "importer CSV" permet de lire le fichier CSV pour une importation dans la base de données de alacasar. ✔️
 
-✔️ Il met à jour la base de données en utilisant les identifiants fournis. 
+✔️ Il met à jour la base de données en utilisant les identifiants fournis. ✔️
 
 ✔️ Ils Chiffrent les mots de passe avec l'algorithme SHA-256, et en assurant l'incrémentation automatique des identifiants. ✔️
 
