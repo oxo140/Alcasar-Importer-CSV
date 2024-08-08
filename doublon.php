@@ -57,7 +57,7 @@
         // Configuration de la base de données
         $servername = "localhost";
         $username = "radius";
-        $password = "vdY7v31vk07I0K09";
+        $password = "MDP BDD /root/ALCASAR-passwords.txt";
         $dbname = "radius";
 
         // Connexion à la base de données
