@@ -12,6 +12,8 @@
 
 🔧 Accédez à http://localhost/csv (ou à l'URL correspondant à votre configuration).🔧
 
+`⚠️` IL EST IMPERATIF DE MODIFIER LES VARIBLES DE MOTS DE PASSE DANS LES FICHIERS SUIVANT `sauvegarde.php` `doublon.php` `upload.php` `⚠️`
+
 ✔️ Le bouton "Importer CSV" permet de lire le fichier CSV pour une importation dans la base de données d'ALCASAR. ✔️
 
 ✔️ Il met à jour la base de données en utilisant les identifiants fournis. ✔️
