@@ -1,7 +1,7 @@
 <?php
 
 // Chemin vers le répertoire à vider et où Sauvegarde.sh sera exécuté
-$directory = 'votre chemin de sauvegarde exemple : "/var/www/html/csv/apache" ';
+$directory = '/var/www/html/csv/apache';
 
 // Supprimer tous les fichiers du répertoire
 array_map('unlink', glob("$directory/*"));
