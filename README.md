@@ -2,7 +2,7 @@
 
 🧰 Simplifier l'importation d'un fichier CSV pour le système ALCASAR 🧰
 
-🏗️ Ce script PHP permet d'importer des utilisateurs dans la base à partir d'un fichier CSV. 🏗️
+🏗️ Ces modules PHP permettent d'importer des utilisateurs dans la base à partir d'un fichier CSV. 🏗️
 
 🛠️ Installation-Instructions 🛠️
 
