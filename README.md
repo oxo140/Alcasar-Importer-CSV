@@ -6,7 +6,7 @@
 
 🛠️ Installation-Instructions 🛠️
 
-🔧 Placez les fichiers index.php et upload.php dans le répertoire de votre serveur web. 🔧
+🔧 Placez les fichiers index.php, upload.php, download.php, backup.php, Sauvegarde.php dans le répertoire de votre serveur web. 🔧
 
 🔧 Exemple : /var/www/html/csv/index.php - upload.php 🔧
 
