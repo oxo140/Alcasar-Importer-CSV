@@ -5,10 +5,10 @@
 # Variables de configuration
 rep_tr="$USER"   # Remplacez par le chemin de votre répertoire de sauvegarde local
 DIR_BIN="$USER"           # Remplacez par le chemin de votre répertoire de scripts local
-PASSWD_FILE="/home/crit/ALCASAR-passwords.txt" # Remplacez par le chemin de votre fichier de mot de passe local
+PASSWD_FILE="/root/ALCASAR-passwords.txt votre fichier ALCASAR-passwords.txt" # Remplacez par le chemin de votre fichier de mot de passe local
 DB_RADIUS="radius"            # Remplacez par le nom de votre base de données
 DB_USER="radius"                    # Remplacez par votre utilisateur de base de données
-DB_PASS="vdY7v31vk07I0K09"                # Remplacez par votre mot de passe de base de données
+DB_PASS="votre mot de passe dans /root/ALCASAR-passwords.txt"                # Remplacez par votre mot de passe de base de données
 new="$(date +%Y%m%d-%Hh%M)"               # date & hour of files
 fichier="alcasar-users-database-$new.sql"
 
