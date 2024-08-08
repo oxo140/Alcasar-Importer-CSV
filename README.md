@@ -4,8 +4,6 @@
 
 </div>
 
-![Capture](https://github.com/user-attachments/assets/5bc4810e-39e7-42c8-b0bc-7371dcc013bb)
-
 🧰 Simplifiez l'importation d'un fichier CSV pour le système ALCASAR 
 
 🏗️ Ces modules PHP permettent d'importer des utilisateurs dans la base de données à partir d'un fichier CSV. 
@@ -38,4 +36,9 @@
 
 ⚠️ Pensez à l'utiliser avec précaution, il est toujours nécessaire d'avoir une sauvegarde de votre base. 
 
+<div align="center">
+
+![Capture](https://github.com/user-attachments/assets/5bc4810e-39e7-42c8-b0bc-7371dcc013bb)
+
+</div>
 
