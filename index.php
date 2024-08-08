@@ -17,6 +17,7 @@
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
         }
         h2 {
             margin-top: 0;
@@ -24,6 +25,7 @@
         form {
             display: flex;
             flex-direction: column;
+            align-items: center;
         }
         input[type="file"] {
             margin-bottom: 10px;
@@ -53,6 +55,13 @@
         button:hover {
             background-color: #1e88e5;
         }
+        .yellow-button {
+            background-color: #FFC107;
+            color: black;
+        }
+        .yellow-button:hover {
+            background-color: #ffca28;
+        }
     </style>
 </head>
 <body>
@@ -66,6 +75,9 @@
         </form>
         <form action="backup.php" method="post">
             <button type="submit" name="backup">Extraire la base de données</button>
+        </form>
+        <form action="doublon.php" method="get">
+            <button type="submit" class="yellow-button">Vérifier les doublons</button>
         </form>
     </div>
 </body>
