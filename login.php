@@ -4,7 +4,7 @@ session_start();
 // Vérifie si le formulaire est soumis
 if (isset($_POST['submit'])) {
     // Le mot de passe correct
-    $password = 'test';
+    $password = 'votremotdepasse';
 
     // Vérifie si le mot de passe est correct
     if ($_POST['password'] === $password) {
