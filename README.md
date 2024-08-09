@@ -40,7 +40,7 @@
 
 <div align="center">
 
-![Capture](https://github.com/user-attachments/assets/5bc4810e-39e7-42c8-b0bc-7371dcc013bb)
+![Capture](https://github.com/user-attachments/assets/f6efbf07-c999-4b0d-ae1a-1be14571f3e2)
 
 </div>
 
