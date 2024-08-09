@@ -1,4 +1,14 @@
 <?php
+session_start();
+
+// Vérifie si l'utilisateur est authentifié
+if (!isset($_SESSION['authenticated'])) {
+    header('Location: login.php');
+    exit;
+}
+?>
+
+<?php
 // Configuration de la base de données
 $servername = "localhost";
 $username = "radius";
