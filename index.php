@@ -89,6 +89,9 @@ if (!isset($_SESSION['authenticated'])) {
         <form action="doublon.php" method="get">
             <button type="submit" class="yellow-button">Vérifier les doublons</button>
         </form>
+        <form action="utilisateursinactifs.php" method="get">
+            <button type="submit" class="yellow-button">Utilisateurs Inactifs</button>
+        </form>
     </div>
 </body>
 </html>
