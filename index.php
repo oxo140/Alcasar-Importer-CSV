@@ -72,6 +72,13 @@ if (!isset($_SESSION['authenticated'])) {
         .yellow-button:hover {
             background-color: #ffca28;
         }
+        .green-button {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .green-button:hover {
+            background-color: #45a049;
+        }
     </style>
 </head>
 <body>
@@ -83,14 +90,18 @@ if (!isset($_SESSION['authenticated'])) {
             <input type="submit" value="Upload CSV" name="submit">
             <input type="submit" value="Reverse CSV" name="delete" class="delete">
         </form>
-        <form action="backup.php" method="post">
-            <button type="submit" name="backup">Extraire la base de données</button>
+        
+        <form action="ajoutmac.php" method="get">
+            <button type="submit" class="green-button">Ajouter une adresse MAC</button>
         </form>
         <form action="doublon.php" method="get">
             <button type="submit" class="yellow-button">Vérifier les doublons</button>
         </form>
         <form action="utilisateursinactifs.php" method="get">
             <button type="submit" class="yellow-button">Utilisateurs Inactifs</button>
+        </form>
+        <form action="backup.php" method="post">
+            <button type="submit" name="backup">Extraire la base de données</button>
         </form>
     </div>
 </body>
