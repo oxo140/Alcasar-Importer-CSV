@@ -10,7 +10,7 @@ if (!isset($_SESSION['authenticated'])) {
 // Configuration de la base de données
 $servername = "localhost";
 $username = "radius";
-$password = "mdpbasededonnees";
+$password = "mdpbasededonnées";
 $dbname = "radius";
 
 // Connexion à la base de données
@@ -111,7 +111,7 @@ $conn->close();
             border-radius: 5px;
             border: 1px solid #ccc;
         }
-        input[type="submit"] {
+        input[type="submit"], .back-button {
             background-color: #4CAF50;
             color: white;
             border: none;
@@ -119,8 +119,9 @@ $conn->close();
             border-radius: 5px;
             cursor: pointer;
             font-size: 16px;
+            margin-top: 10px;
         }
-        input[type="submit"]:hover {
+        input[type="submit"]:hover, .back-button:hover {
             background-color: #45a049;
         }
         label {
@@ -129,6 +130,17 @@ $conn->close();
         }
         .required {
             color: red;
+        }
+        .back-button {
+            background-color: #2196F3;
+            margin-top: 20px;
+            text-decoration: none;
+            padding: 10px 20px;
+            display: inline-block;
+            color: white;
+        }
+        .back-button:hover {
+            background-color: #1e88e5;
         }
     </style>
     <script>
@@ -178,6 +190,8 @@ $conn->close();
 
             <input type="submit" value="Ajouter">
         </form>
+        <!-- Bouton pour retourner à la page d'accueil -->
+        <a href="index.php" class="back-button">Retour à l'accueil</a>
     </div>
 </body>
 </html>
