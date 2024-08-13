@@ -79,6 +79,13 @@ if (!isset($_SESSION['authenticated'])) {
         .green-button:hover {
             background-color: #45a049;
         }
+        .inactive-user {
+            background-color: #FFC107;
+            color: black;
+        }
+        .inactive-user:hover {
+            background-color: #ffca28;
+        }
     </style>
 </head>
 <body>
@@ -90,7 +97,6 @@ if (!isset($_SESSION['authenticated'])) {
             <input type="submit" value="Upload CSV" name="submit">
             <input type="submit" value="Reverse CSV" name="delete" class="delete">
         </form>
-        
         <form action="ajoutmac.php" method="get">
             <button type="submit" class="green-button">Ajouter une adresse MAC</button>
         </form>
@@ -99,6 +105,9 @@ if (!isset($_SESSION['authenticated'])) {
         </form>
         <form action="utilisateursinactifs.php" method="get">
             <button type="submit" class="yellow-button">Utilisateurs Inactifs</button>
+        </form>
+        <form action="genererlog.php" method="get">
+            <button type="submit" class="inactive-user">Générer Logs</button>
         </form>
         <form action="backup.php" method="post">
             <button type="submit" name="backup">Extraire la base de données</button>
