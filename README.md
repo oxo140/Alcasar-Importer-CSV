@@ -10,16 +10,14 @@
 
 🛠️ Instructions d'installation 
 
-🔧 Placez les fichiers `index.php`, `upload.php`, `download.php`, `backup.php`, `sauvegarde.php`,`login.php`, `utilisateursinactifs.php` et `doublon.php` dans le répertoire de votre serveur web.
-
-🔧 Exemple : `/var/www/html/csv/index.php`
+🔧 Placez les fichiers `php` dans le répertoire de votre serveur web (Exemple : `/var/www/html/csv/index.php`)
 
 🔧 Creer le repertoire `apache` (mkdir apache) et lui donner les droits (chmod 777 apache)
 
 🔧 Accédez à http://localhost/csv (ou à l'URL correspondant à votre configuration).
 
 ```diff
-- ⚠️ IL EST IMPERATIF DE MODIFIER LES VARIABLES DE MOTS DE PASSE DANS LES FICHIERS SUIVANTS : sauvegarde.php, doublon.php, upload.php, login.php, utilisateursinactifs.php
+- ⚠️ IL EST IMPERATIF DE MODIFIER LES VARIABLES DE MOTS DE PASSE DANS LES FICHIERS SUIVANTS : sauvegarde.php, doublon.php, upload.php, login.php, utilisateursinactifs.php, ajoutmac.php
 ```
 
 ✔️ Le bouton "Importer CSV" permet de lire le fichier CSV pour une importation dans la base de données d'ALCASAR.
