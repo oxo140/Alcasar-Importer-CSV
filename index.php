@@ -11,7 +11,7 @@ if (!isset($_SESSION['authenticated'])) {
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Importer CSV</title>
+    <title>Accueil</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -37,10 +37,7 @@ if (!isset($_SESSION['authenticated'])) {
             flex-direction: column;
             align-items: center;
         }
-        input[type="file"] {
-            margin-bottom: 10px;
-        }
-        input[type="submit"], button {
+        button {
             background-color: #4CAF50;
             color: white;
             border: none;
@@ -50,20 +47,8 @@ if (!isset($_SESSION['authenticated'])) {
             font-size: 16px;
             margin-bottom: 10px;
         }
-        input[type="submit"]:hover, button:hover {
-            background-color: #45a049;
-        }
-        input[type="submit"].delete {
-            background-color: #f44336;
-        }
-        input[type="submit"].delete:hover {
-            background-color: #e53935;
-        }
-        button {
-            background-color: #2196F3;
-        }
         button:hover {
-            background-color: #1e88e5;
+            background-color: #45a049;
         }
         .yellow-button {
             background-color: #FFC107;
@@ -71,13 +56,6 @@ if (!isset($_SESSION['authenticated'])) {
         }
         .yellow-button:hover {
             background-color: #ffca28;
-        }
-        .green-button {
-            background-color: #4CAF50;
-            color: white;
-        }
-        .green-button:hover {
-            background-color: #45a049;
         }
         .inactive-user {
             background-color: #FFC107;
@@ -90,12 +68,9 @@ if (!isset($_SESSION['authenticated'])) {
 </head>
 <body>
     <div class="container">
-        <h2>Importer votre fichier CSV</h2>
-        <form action="upload.php" method="post" enctype="multipart/form-data">
-            Choisir votre fichier CSV à importer:
-            <input type="file" name="fileToUpload" id="fileToUpload">
-            <input type="submit" value="Upload CSV" name="submit">
-            <input type="submit" value="Reverse CSV" name="delete" class="delete">
+        <h2>Page d'accueil</h2>
+        <form action="gerer_csv.php" method="get">
+            <button type="submit">Gérer CSV</button>
         </form>
         <form action="ajoutmac.php" method="get">
             <button type="submit" class="green-button">Ajouter une adresse MAC</button>
