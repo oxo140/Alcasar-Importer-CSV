@@ -37,8 +37,8 @@
 ⚠️ Pensez à l'utiliser avec précaution, il est toujours nécessaire d'avoir une sauvegarde de votre base. 
 
 <div align="center">
-  
-![Capture](https://github.com/user-attachments/assets/73582800-1277-4ba8-adf1-099e94e5736d)
+
+![image](https://github.com/user-attachments/assets/758ac6fd-12a2-4364-9ccc-d452d4aaf847)
 
 </div>
 
