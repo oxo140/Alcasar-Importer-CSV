@@ -16,7 +16,7 @@ $dbname = "radius";
 // Connexion à la base de données
 $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+    die("Vérifier le mot de passe -> Connection failed: " . $conn->connect_error);
 }
 
 // Fonction pour générer un hash SHA-256 au format crypt
