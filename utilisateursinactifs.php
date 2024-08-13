@@ -10,7 +10,7 @@ if (!isset($_SESSION['authenticated'])) {
 // Configuration de la base de données
 $servername = "localhost";
 $username = "radius";
-$password = "vdY7v31vk07I0K09";
+$password = "mdpbdd";
 $dbname = "radius";
 
 // Connexion à la base de données
