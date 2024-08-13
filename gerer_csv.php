@@ -41,7 +41,6 @@ if (!isset($_SESSION['authenticated'])) {
             margin-bottom: 10px;
         }
         input[type="submit"], button {
-            background-color: #4CAF50;
             color: white;
             border: none;
             padding: 10px;
@@ -49,8 +48,12 @@ if (!isset($_SESSION['authenticated'])) {
             cursor: pointer;
             font-size: 16px;
             margin-bottom: 10px;
+            width: 100%;
         }
-        input[type="submit"]:hover, button:hover {
+        input[type="submit"].merge {
+            background-color: #4CAF50;
+        }
+        input[type="submit"].merge:hover {
             background-color: #45a049;
         }
         input[type="submit"].delete {
@@ -59,32 +62,17 @@ if (!isset($_SESSION['authenticated'])) {
         input[type="submit"].delete:hover {
             background-color: #e53935;
         }
-        button {
+        input[type="submit"].overwrite {
+            background-color: #f44336;
+        }
+        input[type="submit"].overwrite:hover {
+            background-color: #e53935;
+        }
+        button.download {
             background-color: #2196F3;
         }
-        button:hover {
+        button.download:hover {
             background-color: #1e88e5;
-        }
-        .yellow-button {
-            background-color: #FFC107;
-            color: black;
-        }
-        .yellow-button:hover {
-            background-color: #ffca28;
-        }
-        .green-button {
-            background-color: #4CAF50;
-            color: white;
-        }
-        .green-button:hover {
-            background-color: #45a049;
-        }
-        .inactive-user {
-            background-color: #FFC107;
-            color: black;
-        }
-        .inactive-user:hover {
-            background-color: #ffca28;
         }
     </style>
 </head>
@@ -94,8 +82,12 @@ if (!isset($_SESSION['authenticated'])) {
         <form action="upload.php" method="post" enctype="multipart/form-data">
             Choisir votre fichier CSV à importer:
             <input type="file" name="fileToUpload" id="fileToUpload">
-            <input type="submit" value="Upload CSV" name="submit">
+            <input type="submit" value="Fusionner le CSV avec la base" name="submit" class="merge">
+            <input type="submit" value="Écraser la base et importer le CSV" name="overwrite" class="overwrite">
             <input type="submit" value="Reverse CSV" name="delete" class="delete">
+        </form>
+        <form action="download.php" method="post">
+            <button type="submit" class="download">Télécharger la base en CSV</button>
         </form>
     </div>
 </body>
