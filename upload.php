@@ -21,7 +21,7 @@ function generate_sha256_crypt($value, $salt = 'rtkdwayv') {
 // Connexion à la base de données
 $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+    die("Vérifier le mot de passe -> Connection failed: " . $conn->connect_error);
 }
 
 // Vérifier si un fichier a été téléchargé
