@@ -22,7 +22,7 @@ $tmpSql = $dir . 'connexion.log';
 // Connexion à la base de données
 $servername = "localhost";
 $username = "root"; // Utilisez 'root' pour le test
-$password = "smBwGcggN2ldnI1m";
+$password = "mdp root dans /root/ALCASAR-password.txt";
 $dbname = "radius";
 
 $mysqli = new mysqli($servername, $username, $password, $dbname);
