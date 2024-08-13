@@ -28,7 +28,7 @@ $dbname = "radius";
 $mysqli = new mysqli($servername, $username, $password, $dbname);
 
 if ($mysqli->connect_error) {
-    die("Erreur de connexion: " . $mysqli->connect_error);
+    die("Vérifier le mot de passe -> Erreur de connexion: " . $mysqli->connect_error);
 }
 
 if (isset($_GET['start_date'])) {
