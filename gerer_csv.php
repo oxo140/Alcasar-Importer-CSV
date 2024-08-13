@@ -18,6 +18,8 @@
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             text-align: center;
+            width: 100%;
+            max-width: 600px;
         }
         h2 {
             margin-top: 0;
@@ -66,6 +68,17 @@
         }
         .confirmation-section {
             margin-top: 20px;
+        }
+        .confirmation-section p {
+            margin: 0 0 10px;
+            text-align: center;
+        }
+        .confirmation-section input[type="text"] {
+            text-align: center; /* Centre le texte à l'intérieur du champ */
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
         }
     </style>
 </head>
