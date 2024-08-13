@@ -6,18 +6,22 @@ if (!isset($_SESSION['authenticated'])) {
     header('Location: login.php');
     exit;
 }
-?>
 
-<?php
 // Configuration de la base de données
 $servername = "localhost";
 $username = "radius";
-$password = "MDP BDD /root/ALCASAR-passwords.txt";
+$password = "vdY7v31vk07I0K09";
 $dbname = "radius";
 
 // Fonction pour générer un hash SHA-256 au format crypt
 function generate_sha256_crypt($value, $salt = 'rtkdwayv') {
     return crypt($value, '$5$' . $salt);
+}
+
+// Connexion à la base de données
+$conn = new mysqli($servername, $username, $password, $dbname);
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
 }
 
 // Vérifier si un fichier a été téléchargé
@@ -32,10 +36,10 @@ if (isset($_FILES['fileToUpload'])) {
     if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
         echo "The file " . htmlspecialchars(basename($_FILES["fileToUpload"]["name"])) . " has been uploaded.<br>";
 
-        // Connexion à la base de données
-        $conn = new mysqli($servername, $username, $password, $dbname);
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
+        if (isset($_POST['overwrite'])) {
+            // Étape de confirmation terminée, maintenant vider la base de données
+            $conn->query("TRUNCATE TABLE radcheck");
+            $conn->query("TRUNCATE TABLE userinfo");
         }
 
         // Lire le fichier CSV
@@ -44,7 +48,7 @@ if (isset($_FILES['fileToUpload'])) {
             // Ignorer la ligne d'en-tête
             fgetcsv($handle, 1000, ",");
 
-            if (isset($_POST['submit'])) {
+            if (isset($_POST['submit']) || isset($_POST['overwrite'])) {
                 // Lire les données du CSV pour ajout
                 while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
                     $username = $data[1];
@@ -104,11 +108,11 @@ if (isset($_FILES['fileToUpload'])) {
         } else {
             echo "Cannot open the file.";
         }
-
-        // Fermer la connexion à la base de données
-        $conn->close();
     } else {
         echo "Sorry, there was an error uploading your file.";
     }
 }
+
+// Fermer la connexion à la base de données
+$conn->close();
 ?>
