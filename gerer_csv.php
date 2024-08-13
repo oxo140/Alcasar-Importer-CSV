@@ -99,7 +99,8 @@
             </div>
         </form>
 
-        <form action="download.php" method="post">
+        <!-- Formulaire pour télécharger la base en CSV -->
+        <form action="exportbasecsv.php" method="post">
             <button type="submit" class="download">Télécharger la base en CSV</button>
         </form>
     </div>
