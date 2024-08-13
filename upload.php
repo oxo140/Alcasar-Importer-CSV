@@ -51,15 +51,15 @@ if (isset($_FILES['fileToUpload'])) {
             if (isset($_POST['submit']) || isset($_POST['overwrite'])) {
                 // Lire les données du CSV pour ajout
                 while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
-                    $username = $data[1];
-                    $attribute = $data[2];
-                    $value = generate_sha256_crypt($data[4]); // Chiffrement SHA-256 de la valeur
-                    $name = $data[5];
-                    $mail = $data[6];
-                    $department = $data[7];
-                    $workphone = $data[8];
-                    $homephone = $data[9];
-                    $mobile = $data[10];
+                    $username = $data[0];
+                    $attribute = $data[1];
+                    $value = generate_sha256_crypt($data[2]); // Chiffrement SHA-256 de la valeur
+                    $name = $data[3];
+                    $mail = $data[4];
+                    $department = $data[5];
+                    $workphone = $data[6];
+                    $homephone = $data[7];
+                    $mobile = $data[8];
 
                     // Insérer dans radcheck et obtenir l'id auto-incrémenté
                     $radcheck_sql = $conn->prepare("INSERT INTO radcheck (username, attribute, value) VALUES (?, ?, ?)");
@@ -83,7 +83,7 @@ if (isset($_FILES['fileToUpload'])) {
             } elseif (isset($_POST['delete'])) {
                 // Lire les données du CSV pour suppression
                 while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
-                    $username = $data[1];
+                    $username = $data[0];
 
                     // Supprimer de radcheck
                     $delete_radcheck_sql = $conn->prepare("DELETE FROM radcheck WHERE username = ?");
