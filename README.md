@@ -13,6 +13,7 @@
 🔧 Placez les fichiers `php` dans le répertoire de votre serveur web (Exemple : `/var/www/html/csv/index.php`)
 
 🔧 Creer le repertoire `apache` (mkdir apache) et lui donner les droits (chmod 777 apache)
+
 🔧 Creer le repertoire `uploads` (mkdir uploads) et lui donner les droits (chmod 777 apache)
 
 🔧 Accédez à http://localhost/csv (ou à l'URL correspondant à votre configuration).
