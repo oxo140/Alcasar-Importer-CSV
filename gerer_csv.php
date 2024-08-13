@@ -1,13 +1,3 @@
-<?php
-session_start();
-
-// Vérifie si l'utilisateur est authentifié
-if (!isset($_SESSION['authenticated'])) {
-    header('Location: login.php');
-    exit;
-}
-?>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -63,10 +53,10 @@ if (!isset($_SESSION['authenticated'])) {
             background-color: #e53935;
         }
         input[type="submit"].overwrite {
-            background-color: #f44336;
+            background-color: #FFC107; /* Jaune */
         }
         input[type="submit"].overwrite:hover {
-            background-color: #e53935;
+            background-color: #ffca28; /* Jaune clair */
         }
         button.download {
             background-color: #2196F3;
@@ -74,18 +64,57 @@ if (!isset($_SESSION['authenticated'])) {
         button.download:hover {
             background-color: #1e88e5;
         }
+        .confirm-section, .final-confirm-section, .final-input-section {
+            display: none;
+            margin-top: 20px;
+        }
+        .confirm-button {
+            background-color: #FFC107; /* Jaune */
+            color: black;
+        }
+        .confirm-button:hover {
+            background-color: #ffca28; /* Jaune clair */
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h2>Gérer vos fichiers CSV</h2>
-        <form action="upload.php" method="post" enctype="multipart/form-data">
+        <form action="upload.php" method="post" enctype="multipart/form-data" id="uploadForm">
             Choisir votre fichier CSV à importer:
             <input type="file" name="fileToUpload" id="fileToUpload">
             <input type="submit" value="Fusionner le CSV avec la base" name="submit" class="merge">
-            <input type="submit" value="Écraser la base et importer le CSV" name="overwrite" class="overwrite">
             <input type="submit" value="Reverse CSV" name="delete" class="delete">
+            <input type="submit" value="Écraser la base et importer le CSV" name="overwrite" class="overwrite">
         </form>
+
+        <!-- Confirmation Section -->
+        <form action="upload.php" method="post" id="confirmForm">
+            <div class="confirm-section" id="confirmSection">
+                <p>Vous êtes sûr de vouloir écraser la base et importer le CSV ?</p>
+                <button type="submit" name="confirmYes" class="confirm-button">Oui</button>
+                <button type="submit" name="confirmNo" class="confirm-button">Non</button>
+            </div>
+        </form>
+
+        <!-- Final Confirmation Section -->
+        <form action="upload.php" method="post" id="finalConfirmForm">
+            <div class="final-confirm-section" id="finalConfirmSection">
+                <p>Vous êtes vraiment sûr ?</p>
+                <button type="submit" name="finalConfirmYes" class="confirm-button">Oui</button>
+                <button type="submit" name="finalConfirmNo" class="confirm-button">Non</button>
+            </div>
+        </form>
+
+        <!-- Final Input Section -->
+        <form action="upload.php" method="post">
+            <div class="final-input-section" id="finalInputSection">
+                <p>Veuillez entrer "confirmer" pour valider :</p>
+                <input type="text" name="confirmationInput" id="confirmationInput">
+                <button type="submit" name="confirmFinal" class="confirm-button">Confirmer</button>
+            </div>
+        </form>
+
         <form action="download.php" method="post">
             <button type="submit" class="download">Télécharger la base en CSV</button>
         </form>
