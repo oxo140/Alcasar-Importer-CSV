@@ -11,14 +11,9 @@
 🛠️ Instructions d'installation 
 
 ```
-
  curl -O https://raw.githubusercontent.com/oxo140/Alcasar-Importer-CSV/main/deploy.sh
-
  chmod +x deploy.sh
-
  sudo ./deploy.sh
-
-
 ```
 
 ✔️ Accédez à http://IPdeAlcasasr/csv
