@@ -10,13 +10,17 @@
 
 🛠️ Instructions d'installation 
 
-🔧 curl -O https://raw.githubusercontent.com/oxo140/Alcasar-Importer-CSV/main/deploy.sh
+```
 
-🔧 chmod +x deploy.sh
+ curl -O https://raw.githubusercontent.com/oxo140/Alcasar-Importer-CSV/main/deploy.sh
 
-🔧 sudo ./deploy.sh
+ chmod +x deploy.sh
 
-🔧 Accédez à http://IPdeAlcasasr/csv
+ sudo ./deploy.sh
+
+ Accédez à http://IPdeAlcasasr/csv
+
+```
 
 ✔️ Le bouton "Importer CSV" permet de lire le fichier CSV pour une importation dans la base de données d'ALCASAR.
 
