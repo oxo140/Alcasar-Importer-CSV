@@ -18,10 +18,11 @@
 
  sudo ./deploy.sh
 
- Accédez à http://IPdeAlcasasr/csv
 
 ```
 
+✔️ Accédez à http://IPdeAlcasasr/csv
+ 
 ✔️ Le bouton "Importer CSV" permet de lire le fichier CSV pour une importation dans la base de données d'ALCASAR.
 
 ✔️ Il met à jour la base de données en utilisant les identifiants fournis. 
