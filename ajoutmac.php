@@ -24,6 +24,8 @@ function generate_sha256_crypt($value, $salt = 'rtkdwayv') {
     return crypt($value, '$5$' . $salt);
 }
 
+$message = ""; // Variable pour le message
+
 // Vérifier si le formulaire a été soumis
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $mac_address = strtoupper(join('-', str_split(str_replace('-', '', $_POST['mac_address']), 2))); // Format xx-xx-xx-xx-xx-xx
@@ -57,12 +59,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Commit de la transaction
         $conn->commit();
 
-        echo "Adresse MAC et informations utilisateur ajoutées avec succès.";
+        $message = "Adresse MAC et informations utilisateur ajoutées avec succès.";
 
     } catch (Exception $e) {
         // Annuler la transaction en cas d'erreur
         $conn->rollback();
-        echo "Erreur lors de l'ajout : " . $e->getMessage();
+        $message = "Erreur lors de l'ajout : " . $e->getMessage();
     }
 
     // Fermer les statements
@@ -142,6 +144,17 @@ $conn->close();
         .back-button:hover {
             background-color: #1e88e5;
         }
+        .message {
+            margin-top: 20px;
+            font-size: 16px;
+            color: #333;
+        }
+        .message.success {
+            color: green;
+        }
+        .message.error {
+            color: red;
+        }
     </style>
     <script>
         // Fonction pour formater l'adresse MAC
@@ -190,6 +203,12 @@ $conn->close();
 
             <input type="submit" value="Ajouter">
         </form>
+        <!-- Affichage du message de succès ou d'erreur -->
+        <?php if ($message): ?>
+            <div class="message <?php echo strpos($message, 'Erreur') === false ? 'success' : 'error'; ?>">
+                <?php echo $message; ?>
+            </div>
+        <?php endif; ?>
         <!-- Bouton pour retourner à la page d'accueil -->
         <a href="index.php" class="back-button">Retour à l'accueil</a>
     </div>
