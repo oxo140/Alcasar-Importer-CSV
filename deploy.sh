@@ -1,5 +1,14 @@
 #!/bin/bash
 
+# Installation de Git si nécessaire
+if ! command -v git &> /dev/null
+then
+    echo "Git n'est pas installé. Installation de Git..."
+    sudo urpmi git
+else
+    echo "Git est déjà installé."
+fi
+
 # Variables
 REPO_URL="https://github.com/oxo140/Alcasar-Importer-CSV"
 DEST_DIR="/var/www/html/csv"
