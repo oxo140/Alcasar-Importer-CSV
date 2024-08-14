@@ -8,7 +8,7 @@ DIR_BIN="$USER"           # Remplacez par le chemin de votre répertoire de scri
 PASSWD_FILE="/root/ALCASAR-passwords.txt" # Remplacez par le chemin de votre fichier de mot de passe local
 DB_RADIUS="radius"            # Remplacez par le nom de votre base de données
 DB_USER="radius"                    # Remplacez par votre utilisateur de base de données
-DB_PASS="votre mot de passe dans /root/ALCASAR-passwords.txt"                # Remplacez par votre mot de passe de base de données
+DB_PASS="db_password"                # Remplacez par votre mot de passe de base de données
 new="$(date +%Y%m%d-%Hh%M)"               # date & hour of files
 fichier="alcasar-users-database-$new.sql"
 
