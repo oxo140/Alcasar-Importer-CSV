@@ -16,7 +16,7 @@
  sudo ./deploy.sh
 ```
 
-✔️ Accédez à http://IPdeAlcasasr/csv
+🖥️ Accédez à http://IPdeAlcasasr/csv
 
 ⚠️ Toujours avoir une sauvegarde de votre base sous la main ! ⚠️
 
@@ -32,12 +32,8 @@
 
 ✔️ Le bouton "Générer Logs" permet de crée un fichier CSV affichant la date et l'heure de chacune des connexion des utilisateurs.
 
-✔️ Les mots de passe sont chiffrés avec l'algorithme SHA-256 , et les identifiants sont automatiquement incrémentés. 
-
-
 <div align="center">
 
 ![image](https://github.com/user-attachments/assets/758ac6fd-12a2-4364-9ccc-d452d4aaf847)
 
 </div>
-
