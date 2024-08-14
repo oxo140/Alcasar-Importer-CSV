@@ -67,7 +67,7 @@ if (!isset($_SESSION['authenticated'])) {
         // Configuration de la base de données
         $servername = "localhost";
         $username = "radius";
-        $password = "MDP BDD /root/ALCASAR-passwords.txt";
+        $password = "db_password";
         $dbname = "radius";
 
         // Connexion à la base de données
