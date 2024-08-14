@@ -10,17 +10,13 @@
 
 🛠️ Instructions d'installation 
 
-🔧 Placez les fichiers `php` dans le répertoire de votre serveur web (Exemple : `/var/www/html/csv/index.php`)
+🔧 curl -O https://raw.githubusercontent.com/oxo140/Alcasar-Importer-CSV/main/deploy.sh
 
-🔧 Creer le repertoire `apache` (mkdir apache) et lui donner les droits (chmod 777 apache)
+🔧 chmod +x deploy.sh
 
-🔧 Creer le repertoire `uploads` (mkdir uploads) et lui donner les droits (chmod 777 apache)
+🔧 sudo ./deploy.sh
 
-🔧 Accédez à http://localhost/csv (ou à l'URL correspondant à votre configuration).
-
-```diff
-- ⚠️ IL EST IMPERATIF DE MODIFIER LES VARIABLES DE MOTS DE PASSE DANS LES FICHIERS SUIVANTS : sauvegarde.php, doublon.php, upload.php, login.php, exportbasecsv.php, utilisateursinactifs.php, ajoutmac.php
-```
+🔧 Accédez à http://IPdeAlcasasr/csv
 
 ✔️ Le bouton "Importer CSV" permet de lire le fichier CSV pour une importation dans la base de données d'ALCASAR.
 
