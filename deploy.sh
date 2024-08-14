@@ -44,6 +44,10 @@ chown -R :$WEB_GROUP $DEST_DIR/uploads
 chmod 775 $DEST_DIR/apache
 chmod 775 $DEST_DIR/uploads
 
+# Protéger Sauvegarde.sh contre le téléchargement via Apache
+echo "Order allow,deny
+Deny from all" > $DEST_DIR/.htaccess
+
 # Remplacer les placeholders db_root et db_password dans les fichiers PHP
 find $DEST_DIR -type f -name "*.php" -exec sed -i "s/db_root/$db_root/g" {} \;
 find $DEST_DIR -type f -name "*.php" -exec sed -i "s/db_password/$db_password/g" {} \;
@@ -58,4 +62,4 @@ sed -i "s/votremotdepasse/$web_password/g" $DEST_DIR/login.php
 # Nettoyer le répertoire temporaire
 rm -rf /tmp/alcasar-importer-csv
 
-echo "Les fichiers ont été déplacés vers $DEST_DIR, les variables ont été remplacées, et les permissions ont été ajustées."
+echo "Les fichiers ont été déplacés vers $DEST_DIR, les variables ont été remplacées, les permissions ont été ajustées, et le téléchargement de Sauvegarde.sh a été bloqué."
