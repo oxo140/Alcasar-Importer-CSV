@@ -19,9 +19,6 @@ WEB_GROUP="apache"  # Groupe utilisé par Apache sur Mageia
 read -sp "Votre mot de passe pour l'accès web : " web_password
 echo
 
-# Chiffrer le mot de passe en utilisant SHA-256 avec openssl
-hashed_password=$(openssl passwd -5 "$web_password")
-
 # Récupérer les variables db_root et db_password depuis le fichier ALCASAR-passwords.txt
 db_root=$(grep -w "db_root" $PASSWORD_FILE | cut -d '=' -f2)
 db_password=$(grep -w "db_password" $PASSWORD_FILE | cut -d '=' -f2)
@@ -59,8 +56,8 @@ find $DEST_DIR -type f -name "*.php" -exec sed -i "s/db_password/$db_password/g"
 sed -i "s/db_root/$db_root/g" $DEST_DIR/Sauvegarde.sh
 sed -i "s/db_password/$db_password/g" $DEST_DIR/Sauvegarde.sh
 
-# Remplacer 'votremotdepasse' dans login.php par le mot de passe chiffré
-sed -i "s/votremotdepasse/$hashed_password/g" $DEST_DIR/login.php
+# Remplacer 'votremotdepasse' dans login.php par le mot de passe saisi par l'utilisateur
+sed -i "s/votremotdepasse/$web_password/g" $DEST_DIR/login.php
 
 # Nettoyer le répertoire temporaire
 rm -rf /tmp/alcasar-importer-csv
