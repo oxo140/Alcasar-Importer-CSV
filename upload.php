@@ -10,7 +10,7 @@ if (!isset($_SESSION['authenticated'])) {
 // Configuration de la base de données
 $servername = "localhost";
 $username = "radius";
-$password = "db_password";
+$password = "vdY7v31vk07I0K09";
 $dbname = "radius";
 
 // Fonction pour générer un hash SHA-256 au format crypt
@@ -74,6 +74,14 @@ if (isset($_FILES['fileToUpload'])) {
                             echo "Error inserting into userinfo: " . $userinfo_sql->error . "<br>";
                         }
                         $userinfo_sql->close();
+
+                        // Insérer les données dans radreply
+                        $radreply_sql = $conn->prepare("INSERT INTO radreply (username, attribute, op, value) VALUES (?, 'Alcasar-Status-Page-Must-Stay-Open', '=', '2')");
+                        $radreply_sql->bind_param("s", $username);
+                        if (!$radreply_sql->execute()) {
+                            echo "Error inserting into radreply: " . $radreply_sql->error . "<br>";
+                        }
+                        $radreply_sql->close();
                     } else {
                         echo "Error inserting into radcheck: " . $radcheck_sql->error . "<br>";
                     }
