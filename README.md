@@ -16,7 +16,7 @@ chmod +x deploy.sh
 sudo ./deploy.sh
 ```
 
-🖥️ Accédez à http://IPdeAlcasar/csv
+🖥️ Accédez à [](https://alcasar.localdomain/csv)
 
 ⚠️ Toujours avoir une sauvegarde de votre base sous la main ! ⚠️
 
