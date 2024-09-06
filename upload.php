@@ -21,7 +21,7 @@ function generate_sha256_crypt($value, $salt = 'rtkdwayv') {
 // Connexion à la base de données
 $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
-    die("Vérifier le mot de passe -> Connection failed: " . $conn->connect_error);
+    die("Connection failed: " . $conn->connect_error);
 }
 
 // Vérifier si un fichier a été téléchargé
@@ -50,6 +50,15 @@ if (isset($_FILES['fileToUpload'])) {
 
             if (isset($_POST['submit']) || isset($_POST['overwrite'])) {
                 // Lire les données du CSV pour ajout
+                $groupname = isset($_POST['groupname']) ? $_POST['groupname'] : '';
+
+                if (empty($groupname)) {
+                    die("Veuillez sélectionner un groupname.");
+                }
+
+                // Préparer la requête SQL pour éviter les doublons
+                $insert_sql = $conn->prepare("INSERT IGNORE INTO radusergroup (username, groupname, priority) VALUES (?, ?, 1)");
+
                 while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
                     $username = $data[0];
                     $attribute = $data[1];
@@ -82,12 +91,19 @@ if (isset($_FILES['fileToUpload'])) {
                             echo "Error inserting into radreply: " . $radreply_sql->error . "<br>";
                         }
                         $radreply_sql->close();
+
+                        // Insérer dans radusergroup avec prévention des doublons
+                        $insert_sql->bind_param("ss", $username, $groupname);
+                        if (!$insert_sql->execute()) {
+                            echo "Error inserting into radusergroup: " . $insert_sql->error . "<br>";
+                        }
                     } else {
                         echo "Error inserting into radcheck: " . $radcheck_sql->error . "<br>";
                     }
                     $radcheck_sql->close();
                 }
                 echo "Data has been imported successfully.";
+                $insert_sql->close();
             } elseif (isset($_POST['delete'])) {
                 // Lire les données du CSV pour suppression
                 while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
