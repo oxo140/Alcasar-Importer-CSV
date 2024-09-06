@@ -10,7 +10,7 @@ if (!isset($_SESSION['authenticated'])) {
 // Configuration de la base de données
 $servername = "localhost";
 $username = "radius";
-$password = "vdY7v31vk07I0K09";
+$password = "db_password";
 $dbname = "radius";
 
 // Connexion à la base de données
@@ -126,6 +126,17 @@ $conn->close();
             background-color: #fff;
             cursor: pointer;
         }
+        .back-button {
+            background-color: #2196F3;
+            margin-top: 20px;
+            text-decoration: none;
+            padding: 10px 20px;
+            display: inline-block;
+            color: white;
+        }
+        .back-button:hover {
+            background-color: #1e88e5;
+        }
     </style>
 </head>
 <body>
@@ -140,7 +151,6 @@ $conn->close();
             <!-- Menu déroulant des groupname -->
             <label for="groupname">Choisir un groupname :</label>
             <select name="groupname" id="groupname">
-                <option value="">Aucun</option> <!-- Option statique "Aucun" -->
                 <?php foreach ($groupnames as $group): ?>
                     <option value="<?= htmlspecialchars($group['groupname']); ?>">
                         <?= htmlspecialchars($group['groupname']); ?>
@@ -160,6 +170,9 @@ $conn->close();
         <form action="exportbasecsv.php" method="post">
             <button type="submit" class="download">Télécharger la base en CSV</button>
         </form>
+        
+        <!-- Bouton pour retourner à la page d'accueil -->
+        <a href="/csv/" class="back-button">Retour à l'accueil</a>
     </div>
 
     <script>
