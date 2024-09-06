@@ -10,7 +10,7 @@ if (!isset($_SESSION['authenticated'])) {
 // Configuration de la base de données
 $servername = "localhost";
 $username = "radius";
-$password = "vdY7v31vk07I0K09";
+$password = "db_password";
 $dbname = "radius";
 
 // Fonction pour générer un hash SHA-256 au format crypt
