@@ -34,7 +34,7 @@ if (isset($_FILES['fileToUpload'])) {
 
     // Déplacer le fichier téléchargé vers le répertoire de destination
     if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
-        echo "The file " . htmlspecialchars(basename($_FILES["fileToUpload"]["name"])) . " has been uploaded.<br>";
+        $message = "The file " . htmlspecialchars(basename($_FILES["fileToUpload"]["name"])) . " has been uploaded.<br>";
 
         if (isset($_POST['overwrite'])) {
             // Étape de confirmation terminée, maintenant vider la base de données
@@ -80,7 +80,7 @@ if (isset($_FILES['fileToUpload'])) {
                         $userinfo_sql = $conn->prepare("INSERT INTO userinfo (id, username, name, mail, department, workphone, homephone, mobile) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
                         $userinfo_sql->bind_param("isssssss", $id, $username, $name, $mail, $department, $workphone, $homephone, $mobile);
                         if (!$userinfo_sql->execute()) {
-                            echo "Error inserting into userinfo: " . $userinfo_sql->error . "<br>";
+                            $message .= "Error inserting into userinfo: " . $userinfo_sql->error . "<br>";
                         }
                         $userinfo_sql->close();
 
@@ -88,21 +88,21 @@ if (isset($_FILES['fileToUpload'])) {
                         $radreply_sql = $conn->prepare("INSERT INTO radreply (username, attribute, op, value) VALUES (?, 'Alcasar-Status-Page-Must-Stay-Open', '=', '2')");
                         $radreply_sql->bind_param("s", $username);
                         if (!$radreply_sql->execute()) {
-                            echo "Error inserting into radreply: " . $radreply_sql->error . "<br>";
+                            $message .= "Error inserting into radreply: " . $radreply_sql->error . "<br>";
                         }
                         $radreply_sql->close();
 
                         // Insérer dans radusergroup avec prévention des doublons
                         $insert_sql->bind_param("ss", $username, $groupname);
                         if (!$insert_sql->execute()) {
-                            echo "Error inserting into radusergroup: " . $insert_sql->error . "<br>";
+                            $message .= "Error inserting into radusergroup: " . $insert_sql->error . "<br>";
                         }
                     } else {
-                        echo "Error inserting into radcheck: " . $radcheck_sql->error . "<br>";
+                        $message .= "Error inserting into radcheck: " . $radcheck_sql->error . "<br>";
                     }
                     $radcheck_sql->close();
                 }
-                echo "Data has been imported successfully.";
+                $message .= "Data has been imported successfully.";
                 $insert_sql->close();
             } elseif (isset($_POST['delete'])) {
                 // Lire les données du CSV pour suppression
@@ -113,7 +113,7 @@ if (isset($_FILES['fileToUpload'])) {
                     $delete_radcheck_sql = $conn->prepare("DELETE FROM radcheck WHERE username = ?");
                     $delete_radcheck_sql->bind_param("s", $username);
                     if (!$delete_radcheck_sql->execute()) {
-                        echo "Error deleting from radcheck: " . $delete_radcheck_sql->error . "<br>";
+                        $message .= "Error deleting from radcheck: " . $delete_radcheck_sql->error . "<br>";
                     }
                     $delete_radcheck_sql->close();
 
@@ -121,22 +121,91 @@ if (isset($_FILES['fileToUpload'])) {
                     $delete_userinfo_sql = $conn->prepare("DELETE FROM userinfo WHERE username = ?");
                     $delete_userinfo_sql->bind_param("s", $username);
                     if (!$delete_userinfo_sql->execute()) {
-                        echo "Error deleting from userinfo: " . $delete_userinfo_sql->error . "<br>";
+                        $message .= "Error deleting from userinfo: " . $delete_userinfo_sql->error . "<br>";
                     }
                     $delete_userinfo_sql->close();
                 }
-                echo "Users have been deleted successfully.";
+                $message .= "Users have been deleted successfully.";
             }
 
             fclose($handle);
         } else {
-            echo "Cannot open the file.";
+            $message .= "Cannot open the file.";
         }
     } else {
-        echo "Sorry, there was an error uploading your file.";
+        $message .= "Sorry, there was an error uploading your file.";
     }
 }
 
 // Fermer la connexion à la base de données
 $conn->close();
 ?>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gestion des utilisateurs</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 400px;
+        }
+        h2 {
+            margin-top: 0;
+        }
+        .message {
+            margin-top: 20px;
+            font-size: 16px;
+            color: #333;
+            text-align: center; /* Centre le texte du message */
+        }
+        .message.success {
+            color: green;
+        }
+        .message.error {
+            color: red;
+        }
+        .back-button {
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .back-button:hover {
+            background-color: #1e88e5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Gestion des utilisateurs</h2>
+        <!-- Affichage du message de succès ou d'erreur -->
+        <?php if (isset($message) && $message): ?>
+            <div class="message <?php echo strpos($message, 'Error') === false ? 'success' : 'error'; ?>">
+                <?php echo $message; ?>
+            </div>
+        <?php endif; ?>
+        <!-- Bouton pour retourner à l'accueil -->
+        <a href="index.php" class="back-button">Retour à l'accueil</a>
+    </div>
+</body>
+</html>
