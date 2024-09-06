@@ -16,13 +16,24 @@ $dbname = "radius";
 // Connexion à la base de données
 $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
-    die("Vérifier le mot de passe -> Connection failed: " . $conn->connect_error);
+    die("Connection failed: " . $conn->connect_error);
 }
 
 // Fonction pour générer un hash SHA-256 au format crypt
 function generate_sha256_crypt($value, $salt = 'rtkdwayv') {
     return crypt($value, '$5$' . $salt);
 }
+
+// Récupérer les groupnames pour le menu déroulant
+$groupnames = [];
+$groupnames_query = "SELECT DISTINCT groupname FROM radusergroup";
+$result = $conn->query($groupnames_query);
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $groupnames[] = $row['groupname'];
+    }
+}
+$result->close();
 
 $message = ""; // Variable pour le message
 
@@ -38,6 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $workphone = isset($_POST['workphone']) ? $_POST['workphone'] : null;
     $homephone = isset($_POST['homephone']) ? $_POST['homephone'] : null;
     $mobile = isset($_POST['mobile']) ? $_POST['mobile'] : null;
+    $groupname = $_POST['groupname'];
 
     // Commencer une transaction pour assurer l'intégrité des données
     $conn->begin_transaction();
@@ -56,6 +68,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt_userinfo->bind_param("isssssss", $id, $mac_address, $name, $mail, $department, $workphone, $homephone, $mobile);
         $stmt_userinfo->execute();
 
+        // Insérer dans la table radusergroup
+        $stmt_radusergroup = $conn->prepare("INSERT INTO radusergroup (username, groupname, priority) VALUES (?, ?, ?)");
+        $priority = 1;
+        $stmt_radusergroup->bind_param("ssi", $mac_address, $groupname, $priority);
+        $stmt_radusergroup->execute();
+
         // Commit de la transaction
         $conn->commit();
 
@@ -70,6 +88,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Fermer les statements
     $stmt_radcheck->close();
     $stmt_userinfo->close();
+    $stmt_radusergroup->close();
 }
 
 $conn->close();
@@ -105,7 +124,7 @@ $conn->close();
             flex-direction: column;
             align-items: center;
         }
-        input[type="text"], input[type="email"], input[type="tel"] {
+        input[type="text"], input[type="email"], input[type="tel"], select {
             margin-bottom: 10px;
             padding: 10px;
             width: 100%;
@@ -201,6 +220,15 @@ $conn->close();
             <label for="mobile">Mobile :</label>
             <input type="tel" id="mobile" name="mobile">
 
+            <label for="groupname">Groupe <span class="required">*</span> :</label>
+            <select id="groupname" name="groupname">
+                <?php foreach ($groupnames as $group): ?>
+                    <option value="<?= htmlspecialchars($group); ?>">
+                        <?= htmlspecialchars($group); ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+
             <input type="submit" value="Ajouter">
         </form>
         <!-- Affichage du message de succès ou d'erreur -->
@@ -210,7 +238,7 @@ $conn->close();
             </div>
         <?php endif; ?>
         <!-- Bouton pour retourner à la page d'accueil -->
-        <a href="index.php" class="back-button">Retour à l'accueil</a>
+        <a href="/csv/" class="back-button">Retour à l'accueil</a>
     </div>
 </body>
 </html>
