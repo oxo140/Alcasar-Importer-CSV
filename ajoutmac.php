@@ -68,6 +68,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt_userinfo->bind_param("isssssss", $id, $mac_address, $name, $mail, $department, $workphone, $homephone, $mobile);
         $stmt_userinfo->execute();
 
+        
         // Insérer dans la table radusergroup
         $stmt_radusergroup = $conn->prepare("INSERT INTO radusergroup (username, groupname, priority) VALUES (?, ?, ?)");
         $priority = 1;
