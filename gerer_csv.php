@@ -29,7 +29,7 @@ if ($result->num_rows > 0) {
         $groupnames[] = $row;
     }
 } else {
-    echo "0 résultats";
+    echo "Veuillez d'abord crée un groupe sur L'ACC";
 }
 $conn->close();
 ?>
