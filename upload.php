@@ -61,9 +61,11 @@ if (isset($_FILES['fileToUpload'])) {
                     $homephone = $data[7];
                     $mobile = $data[8];
 
+                    $op = ":="; // Valeur fixe pour le champ 'op'
+
                     // Insérer dans radcheck et obtenir l'id auto-incrémenté
-                    $radcheck_sql = $conn->prepare("INSERT INTO radcheck (username, attribute, value) VALUES (?, ?, ?)");
-                    $radcheck_sql->bind_param("sss", $username, $attribute, $value);
+                    $radcheck_sql = $conn->prepare("INSERT INTO radcheck (username, attribute, value, op) VALUES (?, ?, ?, ?)");
+                    $radcheck_sql->bind_param("ssss", $username, $attribute, $value, $op);
                     if ($radcheck_sql->execute()) {
                         $id = $conn->insert_id;
 
