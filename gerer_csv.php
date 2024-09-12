@@ -7,33 +7,6 @@ if (!isset($_SESSION['authenticated'])) {
     exit;
 }
 
-// Configuration de la base de données
-$servername = "localhost";
-$username = "radius";
-$password = "db_password";
-$dbname = "radius";
-
-// Connexion à la base de données
-$conn = new mysqli($servername, $username, $password, $dbname);
-if ($conn->connect_error) {
-    die("Vérifier le mot de passe -> Connection failed: " . $conn->connect_error);
-}
-
-// Requête pour récupérer les groupnames uniques
-$sql = "SELECT DISTINCT groupname FROM radusergroup";
-$result = $conn->query($sql);
-
-$groupnames = [];
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        $groupnames[] = $row;
-    }
-} else {
-    echo "Veuillez d'abord crée un groupe sur L'ACC";
-}
-$conn->close();
-?>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -91,10 +64,10 @@ $conn->close();
             background-color: #e53935;
         }
         input[type="submit"].overwrite {
-            background-color: #FFC107;
+            background-color: #FFC107; /* Jaune */
         }
         input[type="submit"].overwrite:hover {
-            background-color: #ffca28;
+            background-color: #ffca28; /* Jaune clair */
         }
         button.download {
             background-color: #2196F3;
@@ -110,32 +83,11 @@ $conn->close();
             text-align: center;
         }
         .confirmation-section input[type="text"] {
-            text-align: center;
+            text-align: center; /* Centre le texte à l'intérieur du champ */
             margin-bottom: 10px;
             padding: 10px;
             border-radius: 5px;
             border: 1px solid #ddd;
-        }
-        select {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border-radius: 5px;
-            border: 1px solid #ddd;
-            font-size: 16px;
-            background-color: #fff;
-            cursor: pointer;
-        }
-        .back-button {
-            background-color: #2196F3;
-            margin-top: 20px;
-            text-decoration: none;
-            padding: 10px 20px;
-            display: inline-block;
-            color: white;
-        }
-        .back-button:hover {
-            background-color: #1e88e5;
         }
     </style>
 </head>
@@ -148,16 +100,6 @@ $conn->close();
             <input type="submit" value="Fusionner le CSV avec la base" name="submit" class="merge">
             <input type="submit" value="Reverse CSV" name="delete" class="delete">
             
-            <!-- Menu déroulant des groupname -->
-            <label for="groupname">Choisir un groupname :</label>
-            <select name="groupname" id="groupname">
-                <?php foreach ($groupnames as $group): ?>
-                    <option value="<?= htmlspecialchars($group['groupname']); ?>">
-                        <?= htmlspecialchars($group['groupname']); ?>
-                    </option>
-                <?php endforeach; ?>
-            </select>
-
             <!-- Champ de confirmation -->
             <div class="confirmation-section">
                 <p>Pour écraser la base et importer le CSV, entrez "confirmer" :</p>
@@ -170,9 +112,6 @@ $conn->close();
         <form action="exportbasecsv.php" method="post">
             <button type="submit" class="download">Télécharger la base en CSV</button>
         </form>
-        
-        <!-- Bouton pour retourner à la page d'accueil -->
-        <a href="/csv/" class="back-button">Retour à l'accueil</a>
     </div>
 
     <script>
@@ -180,6 +119,7 @@ $conn->close();
         const overwriteButton = document.getElementById('overwriteButton');
 
         confirmationInput.addEventListener('input', function() {
+            // Active le bouton seulement si le champ contient "confirmer"
             if (confirmationInput.value.trim().toLowerCase() === 'confirmer') {
                 overwriteButton.disabled = false;
             } else {
