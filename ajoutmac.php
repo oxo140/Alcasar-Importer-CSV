@@ -39,7 +39,7 @@ $message = ""; // Variable pour le message
 
 // Vérifier si le formulaire a été soumis
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $mac_address = strtoupper(join('-', str_split(str_replace('-', '', $_POST['mac_address']), 2))); // Format xx-xx-xx-xx-xx-xx
+    $mac_address = strtoupper(join('-', str_split(str_replace('-', '', $_POST['mac_address']), 2))); // Format xx-xx-xx-xx-xx-xx 
     $password = generate_sha256_crypt("password"); // Mot de passe "password" chiffré en SHA-256
     $attribute = "Crypt-Password";
     $op = ":=";
@@ -51,7 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $mobile = isset($_POST['mobile']) ? $_POST['mobile'] : null;
     $groupname = $_POST['groupname'];
 
-    // Commencer une transaction pour assurer l'intégrité des données
+    // assurer l'intégrité des données
     $conn->begin_transaction();
 
     try {
@@ -75,7 +75,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt_radusergroup->bind_param("ssi", $mac_address, $groupname, $priority);
         $stmt_radusergroup->execute();
 
-        // Commit de la transaction
+        // Commit de la transaction, valide les changements dans la base de données
         $conn->commit();
 
         $message = "Adresse MAC et informations utilisateur ajoutées avec succès.";
@@ -86,12 +86,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $message = "Erreur lors de l'ajout : " . $e->getMessage();
     }
 
-    // Fermer les statements
+    // Fermer les statements, Cela garantit que les ressources utilisées par ces requêtes sont libérées correctement après leur exécution
     $stmt_radcheck->close();
     $stmt_userinfo->close();
     $stmt_radusergroup->close();
 }
-
+    // Ferme la connexion à la base de données MySQL
 $conn->close();
 ?>
 
