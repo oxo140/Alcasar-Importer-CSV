@@ -112,7 +112,7 @@ $result = $stmt->get_result();
 
         <?php
         if ($result->num_rows > 0) {
-            echo '<p class="warning">Attention, les utilisateurs qui viennent d\'étre crée apparaissent comme non actif';
+            echo '<p class="warning">Attention, les utilisateurs jamais connecté apparaissent comme non actif, (comprend ceux qui viennent d\'étre crée)';
             echo '<p class="warning">Les utilisateurs suivants n\'ont pas été actifs depuis ' . htmlspecialchars($months) . ' mois :</p>';
             echo '<ul>';
             while ($row = $result->fetch_assoc()) {
