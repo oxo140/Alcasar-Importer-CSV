@@ -20,9 +20,9 @@ sudo ./deploy.sh
 
 ⚠️ Toujours avoir une sauvegarde de votre base sous la main ! ⚠️
 
-Le bouton "Gérer CSV" permet la gestion des fichiers CSV pour une fusion dans la base de données d'ALCASAR. Le bouton "Reverse CSV" permet la suppression des utilisateurs avec un `username` identique. Vous pouvez écraser la base en important un fichier CSV ⚠️ ATTENTION, la base est vidée ! ⚠️ Vous pouvez télécharger la base au format CSV, les mots de passe sont chiffrés. Si vous travaillez sur ce fichier, vous pouvez écrire les mots de passe en clair, le système les chiffrera à son importation.
+Le bouton "Gérer CSV" permet la gestion des fichiers CSV pour une fusion dans la base de données d'ALCASAR. Le bouton "Reverse CSV" permet la suppression des utilisateurs avec un `username` identique. Vous pouvez écraser la base en important un fichier CSV ⚠️ ATTENTION, la base est vidée ! ⚠️ Vous pouvez télécharger la base au format CSV, les mots de passe sont chiffrés. Si vous travaillez sur ce fichier, vous pouvez écrire les mots de passe en clair, le système les chiffrera à son importation. L'importation devra etre associé a un groupe.
 
-Vous pouvez ajouter une adresse MAC en utilisant les identifiants et paramètres fournis. L'utilisateur sera automatiquement créé avec le champ `password` comme mot de passe.
+Vous pouvez ajouter une adresse MAC en utilisant les identifiants et paramètres fournis. L'utilisateur sera automatiquement créé avec le champ `password` comme mot de passe et devra etre associé a un groupe.
 
 Le bouton "Extraire la base de données" récupère la base au format `sql.gz`. Ce format est compatible pour l'importation depuis la page ALCASAR prévue à cet effet. Cependant, la génération de la base peut prendre un certain temps en fonction de sa taille, merci d'être patient. L'archive doit ressembler à ceci : `alcasar-users-database-"date"-"heure".sql.gz`.
 
