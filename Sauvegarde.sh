@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# alcasar-mysql.sh Adapted for Local Use
+# alcasar-mysql.sh adapté pour une utilistation local
 
 # Variables de configuration
 rep_tr="$USER"   # Remplacez par le chemin de votre répertoire de sauvegarde local
@@ -9,22 +9,22 @@ PASSWD_FILE="/root/ALCASAR-passwords.txt" # Remplacez par le chemin de votre fic
 DB_RADIUS="radius"            # Remplacez par le nom de votre base de données
 DB_USER="radius"                    # Remplacez par votre utilisateur de base de données
 DB_PASS="db_password"                # Remplacez par votre mot de passe de base de données
-new="$(date +%Y%m%d-%Hh%M)"               # date & hour of files
+new="$(date +%Y%m%d-%Hh%M)"               # date & heure du fichier
 fichier="alcasar-users-database-$new.sql"
 
-stop_acct ()
+stop_acct () #met fin à toutes les sessions actives en ajustant les valeurs dans la base de données et avec la date du jour.
 {
     date_now=`date "+%F %X"`
     echo "UPDATE radacct SET acctstoptime = '$date_now', acctterminatecause = 'Admin-Reset' WHERE acctstoptime IS NULL" | mysql -u$DB_USER -p$DB_PASS $DB_RADIUS
 }
 
-check ()
+check () 
 {
     echo "check (and repair if needed) the database :"
     mysqlcheck --databases $DB_RADIUS -u $DB_USER -p$DB_PASS --auto-repair
 }
 
-expire_user ()
+expire_user () 
 {
     del_date=`date +%F`
     MYSQL_USER=""
