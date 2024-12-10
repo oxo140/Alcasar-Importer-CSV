@@ -10,7 +10,7 @@ if (!isset($_SESSION['authenticated'])) {
 // Configuration de la base de données
 $servername = "localhost";
 $username = "radius";
-$password = "db_password";
+$password = "w7LpEGxvk6nGmCOI";
 $dbname = "radius";
 
 // Connexion à la base de données
@@ -23,10 +23,11 @@ if ($conn->connect_error) {
 $months = isset($_POST['months']) ? intval($_POST['months']) : 1;
 $usernames_to_delete = [];
 
-// Requête pour trouver les utilisateurs non actifs pour le nombre de mois spécifié
-$sql = "SELECT username
+// Requête pour trouver les utilisateurs non actifs avec jointure sur userinfo
+$sql = "SELECT radcheck.username, COALESCE(userinfo.name, 'Non spécifié') AS name
         FROM radcheck
-        WHERE username NOT IN (
+        LEFT JOIN userinfo ON radcheck.username = userinfo.username
+        WHERE radcheck.username NOT IN (
             SELECT DISTINCT username
             FROM radacct
             WHERE acctstarttime BETWEEN FROM_UNIXTIME(UNIX_TIMESTAMP(DATE_SUB(NOW(), INTERVAL ? MONTH)))
@@ -37,6 +38,27 @@ $stmt = $conn->prepare($sql);
 $stmt->bind_param("ii", $months, $months);
 $stmt->execute();
 $result = $stmt->get_result();
+
+// Si le bouton "Exporter CSV" est cliqué
+if (isset($_POST['export_csv'])) {
+    header('Content-Type: text/csv');
+    header('Content-Disposition: attachment; filename="utilisateurs_inactifs.csv"');
+
+    $output = fopen('php://output', 'w');
+
+    // Écrire les en-têtes dans le CSV
+    fputcsv($output, ['Username', 'Name']);
+
+    // Ajouter les données dans le CSV
+    while ($row = $result->fetch_assoc()) {
+        $username = $row['username'];
+        $name = $row['name'];
+        fputcsv($output, [$username, $name]);
+    }
+
+    fclose($output);
+    exit; // Stopper le script après l'export
+}
 ?>
 
 <!DOCTYPE html>
@@ -108,16 +130,18 @@ $result = $stmt->get_result();
             <label for="months">Choisir le nombre de mois d'inactivité :</label>
             <input type="number" id="months" name="months" value="<?php echo htmlspecialchars($months); ?>" min="1">
             <button type="submit" class="yellow-button">Afficher les utilisateurs</button>
+            <button type="submit" name="export_csv" class="yellow-button">Exporter en CSV</button>
         </form>
 
         <?php
         if ($result->num_rows > 0) {
-            echo '<p class="warning">Attention, les utilisateurs jamais connecté apparaissent comme non actif, (comprend ceux qui viennent d\'étre crée)';
+            echo '<p class="warning">Attention, les utilisateurs jamais connectés apparaissent comme non actifs (comprend ceux qui viennent d\'être créés)</p>';
             echo '<p class="warning">Les utilisateurs suivants n\'ont pas été actifs depuis ' . htmlspecialchars($months) . ' mois :</p>';
             echo '<ul>';
             while ($row = $result->fetch_assoc()) {
                 $username = htmlspecialchars($row['username']);
-                echo '<li>' . $username . '</li>';
+                $name = htmlspecialchars($row['name']);
+                echo '<li>' . $username . ' - ' . $name . '</li>';
                 $usernames_to_delete[] = $username;
             }
             echo '</ul>';
