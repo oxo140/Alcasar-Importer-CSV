@@ -15,7 +15,7 @@ if (!isset($_SESSION['authenticated'])) {
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            background-color: #f9f9f9;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -23,14 +23,17 @@ if (!isset($_SESSION['authenticated'])) {
             margin: 0;
         }
         .container {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             text-align: center;
+            animation: fadeIn 1s ease-out;
         }
         h2 {
             margin-top: 0;
+            color: #333;
+            animation: fadeInDown 0.8s ease-out;
         }
         form {
             display: flex;
@@ -41,21 +44,25 @@ if (!isset($_SESSION['authenticated'])) {
             background-color: #4CAF50;
             color: white;
             border: none;
-            padding: 10px;
+            padding: 10px 20px;
             border-radius: 5px;
             cursor: pointer;
             font-size: 16px;
             margin-bottom: 10px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
         }
         button:hover {
             background-color: #45a049;
+            transform: scale(1.05);
         }
         .yellow-button {
             background-color: #FFC107;
             color: black;
+            transition: background-color 0.3s ease, transform 0.2s ease;
         }
         .yellow-button:hover {
             background-color: #ffca28;
+            transform: scale(1.05);
         }
         .inactive-user {
             background-color: #FFC107;
@@ -63,6 +70,29 @@ if (!isset($_SESSION['authenticated'])) {
         }
         .inactive-user:hover {
             background-color: #ffca28;
+            transform: scale(1.05);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
     </style>
 </head>
@@ -73,7 +103,7 @@ if (!isset($_SESSION['authenticated'])) {
             <button type="submit">Gérer CSV</button>
         </form>
         <form action="ajoutmac.php" method="get">
-            <button type="submit" class="green-button">Ajouter une adresse MAC</button>
+            <button type="submit">Ajouter une adresse MAC</button>
         </form>
         <form action="backup.php" method="post">
             <button type="submit" name="backup">Extraire la base de données</button>
