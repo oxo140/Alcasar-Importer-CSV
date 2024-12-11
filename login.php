@@ -40,29 +40,63 @@ if (isset($_POST['submit'])) {
             margin: 0;
         }
         .container {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
             text-align: center;
+            animation: fadeIn 1s ease-out;
         }
         input[type="password"], input[type="submit"] {
-            margin-bottom: 10px;
+            margin-bottom: 15px;
             padding: 10px;
             border-radius: 5px;
             border: 1px solid #ccc;
             font-size: 16px;
+            transition: box-shadow 0.3s ease, transform 0.2s ease;
+        }
+        input[type="password"]:focus {
+            box-shadow: 0 0 8px rgba(76, 175, 80, 0.5);
+            transform: scale(1.03);
         }
         input[type="submit"] {
             background-color: #4CAF50;
             color: white;
             cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
         }
         input[type="submit"]:hover {
             background-color: #45a049;
+            transform: scale(1.05);
         }
         p {
             color: red;
+            font-weight: bold;
+            animation: shake 0.3s ease;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes shake {
+            0%, 100% {
+                transform: translateX(0);
+            }
+            25% {
+                transform: translateX(-5px);
+            }
+            50% {
+                transform: translateX(5px);
+            }
+            75% {
+                transform: translateX(-5px);
+            }
         }
     </style>
 </head>
