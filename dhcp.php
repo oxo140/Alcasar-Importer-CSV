@@ -229,6 +229,11 @@ if (isset($_FILES['csv_file']) && $_FILES['csv_file']['error'] === UPLOAD_ERR_OK
                 <?= nl2br(htmlspecialchars($message)) ?>
             </div>
         <?php endif; ?>
+        
+<div class="message" style="color: red; font-weight: bold; text-align: center; margin-top: 20px;">
+Redemarrer le service chilli ou le serveur pour une prise en compte.
+</div>
+
 
         <a href="index.php" class="back-button">Retour a l'accueil</a>
     </div>
