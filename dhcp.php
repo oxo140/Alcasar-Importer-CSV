@@ -7,7 +7,6 @@ if (!isset($_SESSION['authenticated'])) {
 }
 
 function removeAccents($string) {
-    // fallback accent stripping (no iconv)
     return strtr($string, [
         'à' => 'a', 'â' => 'a', 'ä' => 'a', 'á' => 'a', 'ã' => 'a', 'å' => 'a',
         'ç' => 'c',
@@ -29,6 +28,7 @@ function removeAccents($string) {
 $message = '';
 $debugLog = [];
 $ethersFile = '/usr/local/etc/alcasar-ethers';
+$correspondanceFile = '/var/www/html/csv/correspondancedhcp.txt';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['mac_address'], $_POST['ip_address'])) {
     $mac = strtoupper(trim($_POST['mac_address']));
@@ -55,7 +55,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['mac_address'], $_POST
             $message = "Erreur : cette adresse MAC ou IP existe deja.";
         } else {
             $entry = $mac . ' ' . $ip . PHP_EOL;
+            $entryWithComment = $mac . ' ' . $ip . ' ' . 'Ajout manuel' . PHP_EOL;
+
             if (file_put_contents($ethersFile, $entry, FILE_APPEND | LOCK_EX)) {
+                file_put_contents($correspondanceFile, $entryWithComment, FILE_APPEND | LOCK_EX);
                 $message = "Enregistrement effectue : $mac associe a $ip.";
             } else {
                 $message = "Erreur : impossible d'ecrire dans le fichier.";
@@ -89,8 +92,10 @@ if (isset($_FILES['csv_file']) && $_FILES['csv_file']['error'] === UPLOAD_ERR_OK
                 if (count($data) >= 2) {
                     $mac = strtoupper(trim(str_replace(':', '-', $data[0])));
                     $ip = trim(str_replace(',', '.', $data[1]));
+                    $comment = isset($data[2]) ? trim($data[2]) : '';
                     $mac = removeAccents($mac);
                     $ip = removeAccents($ip);
+                    $comment = removeAccents($comment);
 
                     if (preg_match('/^([0-9A-F]{2}-){5}[0-9A-F]{2}$/', $mac) && filter_var($ip, FILTER_VALIDATE_IP)) {
                         $exists = false;
@@ -103,9 +108,25 @@ if (isset($_FILES['csv_file']) && $_FILES['csv_file']['error'] === UPLOAD_ERR_OK
                         }
                         if (!$exists) {
                             $entry = $mac . ' ' . $ip . PHP_EOL;
-                            if (file_put_contents($ethersFile, $entry, FILE_APPEND | LOCK_EX)) {
-                                $imported++;
+                            $entryWithComment = $mac . ' ' . $ip . ' ' . $comment . PHP_EOL;
+
+                            file_put_contents($ethersFile, $entry, FILE_APPEND | LOCK_EX);
+
+                            $debugLog[] = "Chemin du fichier correspondance: $correspondanceFile";
+                            if (!is_writable(dirname($correspondanceFile))) {
+                                $debugLog[] = "⚠️ Le dossier n'est pas accessible en ecriture par le serveur web.";
                             }
+                            if (file_exists($correspondanceFile) && !is_writable($correspondanceFile)) {
+                                $debugLog[] = "⚠️ Le fichier existe mais n'est pas accessible en ecriture.";
+                            }
+
+                            if (file_put_contents($correspondanceFile, $entryWithComment, FILE_APPEND | LOCK_EX) !== false) {
+                                $debugLog[] = "Ajout dans correspondancedhcp : $entryWithComment";
+                            } else {
+                                $debugLog[] = "⚠️ echec d'ajout dans correspondancedhcp pour : $entryWithComment";
+                            }
+
+                            $imported++;
                         } else {
                             $skipped++;
                         }
@@ -123,6 +144,7 @@ if (isset($_FILES['csv_file']) && $_FILES['csv_file']['error'] === UPLOAD_ERR_OK
     }
 }
 ?>
+
 
 
 <!DOCTYPE html>
@@ -220,8 +242,8 @@ if (isset($_FILES['csv_file']) && $_FILES['csv_file']['error'] === UPLOAD_ERR_OK
             <input type="submit" value="Importer depuis CSV">
         </form>
 
-        <form method="POST" action="telecharger_ethers.php">
-            <input type="submit" class="download-button" value="Telecharger les reservations">
+        <form method="POST" action="telecharger_correspondance.php">
+            <input type="submit" class="download-button" value="Telecharger la correspondance DHCP">
         </form>
 
         <?php if (!empty($message)): ?>
@@ -229,11 +251,10 @@ if (isset($_FILES['csv_file']) && $_FILES['csv_file']['error'] === UPLOAD_ERR_OK
                 <?= nl2br(htmlspecialchars($message)) ?>
             </div>
         <?php endif; ?>
-        
-<div class="message" style="color: red; font-weight: bold; text-align: center; margin-top: 20px;">
-Redemarrer le service chilli ou le serveur pour une prise en compte.
-</div>
 
+        <div class="message" style="color: red; font-weight: bold; text-align: center; margin-top: 20px;">
+Redemarrer le service chilli ou le serveur pour une prise en compte.
+        </div>
 
         <a href="index.php" class="back-button">Retour a l'accueil</a>
     </div>
