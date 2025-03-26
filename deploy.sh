@@ -61,7 +61,10 @@ sed -i "s/votremotdepasse/$web_password/g" $DEST_DIR/login.php
 
 # Nettoyer le répertoire temporaire
 rm -rf /tmp/alcasar-importer-csv
+
+> /var/www/html/csv/correspondancedhcp.txt
+
 sudo chown -R apache:apache /var/www/html/csv
-touch /var/www/html/csv/correspondancedhcp.txt
+sudo chown apache:apache /var/www/html/csv/correspondancedhcp.txt
 sudo chmod 664 /var/www/html/csv/correspondancedhcp.txt
 echo "Les fichiers ont été déplacés vers $DEST_DIR, les variables ont été remplacées, les permissions ont été ajustées, et le téléchargement de Sauvegarde.sh a été bloqué."
