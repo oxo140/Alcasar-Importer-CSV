@@ -24,9 +24,17 @@ Le bouton "Gérer CSV" permet la gestion des fichiers CSV pour une fusion dans l
 
 Vous pouvez ajouter une adresse MAC en utilisant les identifiants et paramètres fournis. L'utilisateur sera automatiquement créé avec le champ `password` comme mot de passe et devra etre associé a un groupe.
 
-Le bouton "Extraire la base de données" récupère la base au format `sql.gz`. Ce format est compatible pour l'importation depuis la page ALCASAR prévue à cet effet. Cependant, la génération de la base peut prendre un certain temps en fonction de sa taille, merci d'être patient. L'archive doit ressembler à ceci : `alcasar-users-database-"date"-"heure".sql.gz`.
+Le bouton "Extraire la base de données" récupère la base au format `sql.gz`. Ce format est compatible pour l'importation depuis la page ALCASAR prévue à cet effet. Cependant, la génération de la base peut prendre un certain temps en fonction de sa taille.
 
-Le bouton "Vérifier les doublons" permet d'afficher une liste des occurrences des utilisateurs présents dans la table `radcheck` s'il y a des doublons. Un bouton "Supprimer les doublons" en bas de la page permet d'effacer un doublon tout en gardant la session la plus récente.
+Le bouton "Gérer DHCP" permet la gestion complète des réservations DHCP :
+
+- Vous pouvez saisir manuellement une adresse MAC et son adresse IP associée, elles seront ajoutées directement au fichier DHCP (`/usr/local/etc/alcasar-ethers`).
+- Vous pouvez importer plusieurs réservations à partir d'un fichier CSV contenant 3 colonnes (Adresse MAC, Adresse IP, Commentaire).
+- Les réservations sont aussi sauvegardées avec commentaires dans `/var/www/html/csv/correspondancedhcp.txt`.
+- Le bouton "Télécharger la correspondance DHCP" permet de récupérer les réservations au format CSV exploitable directement dans Excel.
+- Un bouton "Vider les baux DHCP" permet de vider tous les baux existants pour repartir à zéro.
+
+⚠️ **Important** : Après chaque modification sur les réservations DHCP, vous devez redémarrer le service `chilli` ou le serveur pour une prise en compte.
 
 Le bouton "Utilisateurs Inactifs" permet d'afficher une liste des utilisateurs non connectés depuis un mois et est ajustable sur la page. Un bouton "Supprimer les utilisateurs inactifs" en bas de la page permet d'effacer les utilisateurs inactifs.
 
