@@ -9,14 +9,23 @@ if (!isset($_SESSION['authenticated'])) {
 $correspondanceFile = '/var/www/html/csv/correspondancedhcp.txt';
 
 if (file_exists($correspondanceFile)) {
-    header('Content-Description: File Transfer');
-    header('Content-Type: text/plain');
-    header('Content-Disposition: attachment; filename="correspondancedhcp.txt"');
-    header('Expires: 0');
-    header('Cache-Control: must-revalidate');
-    header('Pragma: public');
-    header('Content-Length: ' . filesize($correspondanceFile));
-    readfile($correspondanceFile);
+    header('Content-Type: text/csv; charset=utf-8');
+    header('Content-Disposition: attachment; filename="correspondancedhcp.csv"');
+
+    $output = fopen('php://output', 'w');
+    fputcsv($output, ['Adresse MAC', 'Adresse IP', 'Commentaire']); // En-tête
+
+    $lines = file($correspondanceFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+
+    foreach ($lines as $line) {
+        $parts = preg_split('/\s+/', $line, 3);
+        $mac = $parts[0] ?? '';
+        $ip = $parts[1] ?? '';
+        $comment = $parts[2] ?? '';
+        fputcsv($output, [$mac, $ip, $comment]);
+    }
+
+    fclose($output);
     exit;
 } else {
     echo "Fichier de correspondance introuvable.";
