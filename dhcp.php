@@ -146,7 +146,6 @@ if (isset($_FILES['csv_file']) && $_FILES['csv_file']['error'] === UPLOAD_ERR_OK
 ?>
 
 
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -173,7 +172,7 @@ if (isset($_FILES['csv_file']) && $_FILES['csv_file']['error'] === UPLOAD_ERR_OK
         h2 {
             margin-top: 0;
         }
-        input[type="text"], input[type="submit"], .back-button, input[type="file"] {
+        input[type="text"], input[type="submit"], .back-button, .download-button, input[type="file"] {
             margin-bottom: 15px;
             padding: 10px;
             width: 100%;
@@ -243,7 +242,11 @@ if (isset($_FILES['csv_file']) && $_FILES['csv_file']['error'] === UPLOAD_ERR_OK
         </form>
 
         <form method="POST" action="telecharger_correspondance.php">
-            <input type="submit" class="download-button" value="Telecharger la correspondance DHCP">
+            <input type="submit" class="download-button" value="Télécharger la correspondance DHCP">
+        </form>
+
+        <form method="POST" action="clearbaux.php">
+            <input type="submit" class="download-button" value="Vider les baux DHCP">
         </form>
 
         <?php if (!empty($message)): ?>
@@ -253,10 +256,11 @@ if (isset($_FILES['csv_file']) && $_FILES['csv_file']['error'] === UPLOAD_ERR_OK
         <?php endif; ?>
 
         <div class="message" style="color: red; font-weight: bold; text-align: center; margin-top: 20px;">
-Redemarrer le service chilli ou le serveur pour une prise en compte.
+            ⚠️ Redémarrer le service chilli ou le serveur pour une prise en compte.
         </div>
 
-        <a href="index.php" class="back-button">Retour a l'accueil</a>
+        <a href="index.php" class="back-button">Retour à l'accueil</a>
     </div>
 </body>
 </html>
+
