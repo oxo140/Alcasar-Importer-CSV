@@ -105,6 +105,9 @@ if (!isset($_SESSION['authenticated'])) {
         <form action="ajoutmac.php" method="get">
             <button type="submit">Ajouter une adresse MAC</button>
         </form>
+        <form action="dhcp.php" method="get">
+            <button type="submit">Réservation DHCP</button>
+        </form>
         <form action="backup.php" method="post">
             <button type="submit" name="backup">Extraire la base de données</button>
         </form>
