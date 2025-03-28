@@ -30,16 +30,29 @@ $debugLog = [];
 $ethersFile = '/usr/local/etc/alcasar-ethers';
 $correspondanceFile = '/var/www/html/csv/correspondancedhcp.txt';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['mac_address'], $_POST['ip_address'])) {
-    $mac = strtoupper(trim($_POST['mac_address']));
-    $ip = trim($_POST['ip_address']);
-    $mac = str_replace(':', '-', $mac);
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Récupération des champs
+    $mac = isset($_POST['mac_address']) ? strtoupper(trim($_POST['mac_address'])) : '';
+    $ip  = isset($_POST['ip_address']) ? trim($_POST['ip_address']) : '';
+    $comment = isset($_POST['comment']) ? trim($_POST['comment']) : '';
 
-    if (!preg_match('/^([0-9A-F]{2}-){5}[0-9A-F]{2}$/', $mac)) {
+    // Vérification : le commentaire est obligatoire
+    if ($comment === '') {
+        $message = "Erreur : le champ commentaire est obligatoire.";
+    }
+    // Puis vos autres vérifications (MAC valide, IP valide, etc.)
+    else if (!preg_match('/^([0-9A-F]{2}-){5}[0-9A-F]{2}$/', str_replace(':', '-', $mac))) {
         $message = "Erreur : adresse MAC invalide.";
-    } elseif (!filter_var($ip, FILTER_VALIDATE_IP)) {
+    }
+    else if (!filter_var($ip, FILTER_VALIDATE_IP)) {
         $message = "Erreur : adresse IP invalide.";
-    } else {
+    }
+    else {
+        // Vérifier si la MAC ou l'IP existent déjà, etc.
+        $ethersFile = '/usr/local/etc/alcasar-ethers';
+        $correspondanceFile = '/var/www/html/csv/correspondancedhcp.txt';
+        $mac = str_replace(':', '-', $mac);
+
         $exists = false;
         if (file_exists($ethersFile)) {
             $lines = file($ethersFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
@@ -54,10 +67,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['mac_address'], $_POST
         if ($exists) {
             $message = "Erreur : cette adresse MAC ou IP existe deja.";
         } else {
-            $entry = $mac . ' ' . $ip . PHP_EOL;
-            $entryWithComment = $mac . ' ' . $ip . ' ' . 'Ajout manuel' . PHP_EOL;
+            // On écrit dans les deux fichiers
+            $entry            = $mac . ' ' . $ip . PHP_EOL;
+            $entryWithComment = $mac . ' ' . $ip . ' ' . $comment . PHP_EOL;
 
             if (file_put_contents($ethersFile, $entry, FILE_APPEND | LOCK_EX)) {
+                // Ajout du commentaire dans correspondancedhcp.txt
                 file_put_contents($correspondanceFile, $entryWithComment, FILE_APPEND | LOCK_EX);
                 $message = "Enregistrement effectue : $mac associe a $ip.";
             } else {
@@ -66,6 +81,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['mac_address'], $_POST
         }
     }
 }
+
+
+
+
 
 if (isset($_FILES['csv_file']) && $_FILES['csv_file']['error'] === UPLOAD_ERR_OK) {
     $filename = $_FILES['csv_file']['name'];
@@ -230,12 +249,18 @@ if (isset($_FILES['csv_file']) && $_FILES['csv_file']['error'] === UPLOAD_ERR_OK
 <body>
     <div class="container">
         <h2>Nouvelle reservation DHCP</h2>
-        <form method="POST" action="dhcp.php">
-            <input type="text" name="mac_address" required placeholder="Adresse MAC (AA-BB-CC-DD-EE-FF)" maxlength="17" oninput="handleMACInput(event)">
-            <input type="text" name="ip_address" required placeholder="Adresse IP (ex: 172.16.0.101)">
-            <input type="submit" value="Ajouter a la reservation">
-        </form>
+        
+<form method="POST" action="dhcp.php">
+    <input type="text" name="mac_address" required placeholder="Adresse MAC (AA-BB-CC-DD-EE-FF)" maxlength="17" oninput="handleMACInput(event)">
+    <input type="text" name="ip_address" required placeholder="Adresse IP (ex: 172.16.0.101)">
+    
+    <!-- Champ commentaire obligatoire -->
+    <input type="text" name="comment" required placeholder="Commentaire (obligatoire)">
 
+    <input type="submit" value="Ajouter a la reservation">
+</form>
+
+        
         <form method="POST" action="dhcp.php" enctype="multipart/form-data">
             <input type="file" name="csv_file" accept=".csv" required>
             <input type="submit" value="Importer depuis CSV">
