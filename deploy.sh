@@ -8,6 +8,7 @@ then
 else
     echo "Git est déjà installé."
 fi
+sudo urpmi php-zip
 
 # Variables
 REPO_URL="https://github.com/oxo140/Alcasar-Importer-CSV"
