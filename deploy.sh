@@ -76,21 +76,19 @@ rm -rf /tmp/alcasar-importer-csv
 
 > /var/www/html/csv/correspondancedhcp.txt
 
-# Crée un groupe dédié si nécessaire
+# Crée les droits dédié
 sudo groupadd alcasar
-
-# Ajoute apache à ce groupe
 sudo usermod -a -G alcasar apache
-
-# Change le groupe du fichier
 sudo chown root:alcasar /usr/local/etc/alcasar-ethers
-
 sudo chown -R apache:apache /var/www/html/csv
 sudo chown apache:apache /var/www/html/csv/correspondancedhcp.txt
 sudo chmod 664 /var/www/html/csv/correspondancedhcp.txt
 sudo chown apache:apache /usr/local/etc/alcasar-ethers
 sudo chmod 664 /usr/local/etc/alcasar-ethers
-# Donne les droits d’écriture au groupe
 sudo chmod 664 /usr/local/etc/alcasar-ethers
+sudo chown root:apache /var/www/html/csv/dhcp.php
+sudo chown root:apache /var/www/html/csv/clearbaux.php
+sudo chmod 0644 /var/www/html/csv/dhcp.php
+sudo chmod 0644 /var/www/html/csv/clearbaux.php
 
 echo "Les fichiers ont été déplacés vers $DEST_DIR, les variables ont été remplacées, les permissions ont été ajustées, et le téléchargement de Sauvegarde.sh a été bloqué."
