@@ -1,5 +1,16 @@
 #!/bin/bash
 
+# Vérification si l'extension zip est chargée dans PHP
+if ! php -m | grep -q '^zip$'
+then
+    echo "L'extension php-zip n'est pas installée ou n'est pas chargée. Installation..."
+    sudo urpmi php-zip
+    echo "Redémarrage du service Apache..."
+    sudo systemctl restart httpd
+else
+    echo "L'extension php-zip est déjà installée et chargée."
+fi
+
 # Installation de Git si nécessaire
 if ! command -v git &> /dev/null
 then
