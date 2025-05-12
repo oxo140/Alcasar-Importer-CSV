@@ -4,6 +4,8 @@
 
 </div>
 
+⚠️ Cette application est faite pour Alcasar en 3.6.0.
+
 🧰 Simplifiez l'importation d'un fichier CSV pour le système ALCASAR
 
 🏗️ Fonction principale : Les modules PHP permettent d'importer des utilisateurs dans la base de données à partir d'un fichier CSV et de remplir tous les champs.
